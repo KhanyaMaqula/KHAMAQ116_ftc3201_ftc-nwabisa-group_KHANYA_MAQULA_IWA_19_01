@@ -29,6 +29,7 @@ const search_authors = document.querySelector("[data-search-authors]")
 const settings = document.querySelector("[data-settings-overlay]")
 const header_settting = document.querySelector('[data-header-settings]')
 const settings_cancel = document.querySelector('[data-settings-cancel]')
+const data_settings_theme = document.querySelector('[data-settings-theme]')
 page = 1;
 
 range = [0,1]
@@ -143,21 +144,7 @@ search_authors.appendChild(authorsFragment)
   
   
 
-
-
-/*data-settings-theme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
-v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches? 'night' : 'day' //The iternary operation uses : instead of |
-
-//documentElement.style.setProperty('--color-dark', css[v].dark);
-//documentElement.style.setProperty('--color-light', css[v].light);
-
-
 /**Create function that will update the showMore button when it is clicked */
-
-
-  
-
-
 
 btn_search_cancel.addEventListener("click", ()=>{
     data_search_overlay.open = false 
@@ -239,27 +226,8 @@ searchButton.addEventListener("click",(event) => {
       }
        
     
-
-    /*for (book; booksList; i++) {
-        titleMatch = filters.title.trim() = '' && book.title.toLowerCase().includes[filters.title.toLowerCase()]
-        authorMatch = filters.author = 'any' || book.author === filters.author
-
-        {
-            genreMatch = filters.genre = 'any'
-            for (genre; book.genres; i++) { if singleGenre = filters.genre { genreMatch === true }}}
-        }
-
-        if titleMatch && authorMatch && genreMatch => result.push(book)
-    }*/
-
-  /*  if display.length < 1 
-    data-list-message.class.add('list__message_show')
-    else data-list-message.class.remove('list__message_show')*/
-    
-
     listItems.innerHTML = ''
     const fragment = document.createDocumentFragment()
-    //const extracted = source.slice(range[0], range[1])
     
   
     result.map((book)=> {
@@ -288,19 +256,34 @@ searchButton.addEventListener("click",(event) => {
     
 });
 
+
+/**Event listener when the theme is changed */
 settings.addEventListener("submit",(event)=>{
     event.preventDefault()
     const formData = new FormData(event.target)
     const result = Object.fromEntries(formData)
-   // console.log(result.theme)
-    if (result.theme === "day") {
-        document.documentElement.style.setProperty('--color-light', `css${result.theme}.light`);
-    }
-    else if (result.theme === 'night'){
-        document.documentElement.style.setProperty('--color-dark', `css${result.theme}.light`)
-    }
+    const day = {
+        dark: '10, 10, 20',
+        light: '255, 255, 255',
+      };
+      
+      const night = {
+        dark: '255, 255, 255',
+        light: '10, 10, 20',
+      };
+    
+    //fetch the whole document to change its colors
+    const root = document.documentElement;
+    
+      if (result.theme !== 'night') {
+        root.style.setProperty('--color-dark', day.dark);
+        root.style.setProperty('--color-light', day.light);
+      } else {
+        root.style.setProperty('--color-dark', night.dark);
+        root.style.setProperty('--color-light', night.light);
+      }
    
-    settings.open === false
+    settings.open = false
 })
 
 
